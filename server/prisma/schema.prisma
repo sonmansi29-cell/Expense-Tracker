@@ -1,0 +1,44 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model User {
+  id                    Int           @id @default(autoincrement())
+  name                  String
+  email                 String        @unique
+  password              String
+  resetPasswordToken    String?
+  resetPasswordExpires  DateTime?
+  transactions Transaction[] // Relation: A user has many transactions
+  budgets      Budget[]      // Relation: A user has many budgets
+}
+
+model Transaction {
+  id        Int      @id @default(autoincrement())
+  text      String
+  amount    Float
+  category  String   @default("General")
+  date      DateTime @default(now())
+  userId    Int      // Foreign Key
+  user      User     @relation(fields: [userId], references: [id])
+}
+
+model Budget {
+  id        Int      @id @default(autoincrement())
+  category  String
+  limit     Float
+  month     Int      // 0-11 for January-December
+  year      Int
+  userId    Int      // Foreign Key
+  user      User     @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, category, month, year])
+}
+
