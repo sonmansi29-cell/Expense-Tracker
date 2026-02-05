@@ -4,6 +4,9 @@ const cors = require("cors");
 
 const app = express();
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 app.use(cors({
   // Copy your EXACT frontend URL from the browser bar
   origin: 'https://expense-tracker-1-d6wy.onrender.com', 
