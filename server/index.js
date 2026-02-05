@@ -5,9 +5,12 @@ const cors = require("cors");
 const app = express();
 
 app.use(cors({
-  origin: 'https://expense-tracker-1-d6wy.onrender.com'
+  // Copy your EXACT frontend URL from the browser bar
+  origin: 'https://expense-tracker-1-d6wy.onrender.com', 
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
 }));
-app.use(express.json());
 
 // ROUTES
 const authRoutes = require("./routes/auth");
