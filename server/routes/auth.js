@@ -171,7 +171,8 @@ router.post('/forgot-password', async (req, res) => {
     });
 
     // For testing: log the reset link instead of sending email
-    const resetLink = `http://localhost:5173/reset-password?token=${resetToken}`;
+    const clientUrl = process.env.CLIENT_URL || 'http://localhost:5173';
+    const resetLink = `${clientUrl}/reset-password?token=${resetToken}`;
     console.log('========================================');
     console.log('PASSWORD RESET LINK (TESTING):');
     console.log(resetLink);

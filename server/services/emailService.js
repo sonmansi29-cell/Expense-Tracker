@@ -48,7 +48,8 @@ const sendPasswordResetEmail = async (email, resetToken) => {
     return;
   }
 
-  const resetLink = `http://localhost:5173/reset-password?token=${resetToken}`;
+  const clientUrl = process.env.CLIENT_URL || 'http://localhost:5173';
+  const resetLink = `${clientUrl}/reset-password?token=${resetToken}`;
 
   const mailOptions = {
     from: process.env.EMAIL_USER,
