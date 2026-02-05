@@ -52,16 +52,22 @@ const token = jwt.sign(
 **Impact**: Security concern for production.
 **Fix Required**: Set JWT_SECRET environment variable in production.
 
-### 3. API Base URL Hardcoded (Medium Priority)
-**File**: `client/src/api.js`
+### 3. API Base URL Configuration (✅ FIXED)
+**File**: `client/src/config.js` (NEW - Centralized configuration)
 ```javascript
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+```
+
+**File**: `client/src/api.js` (UPDATED - Now imports from config)
+```javascript
+import { API_URL } from './config';
+
 const API = axios.create({
-  baseURL: 'http://localhost:5000/api',
+  baseURL: `${API_URL}/api`,
 });
 ```
-**Issue**: Hardcoded localhost URL won't work in production.
-**Impact**: API calls will fail in production environment.
-**Fix Required**: Use environment variable for API base URL.
+
+**Status**: ✅ FIXED - API URL is now centralized and environment-aware. Set `VITE_API_URL` environment variable for production.
 
 ### 4. Email Service Configuration (Low Priority)
 **File**: `server/services/emailService.js` (referenced but not verified)

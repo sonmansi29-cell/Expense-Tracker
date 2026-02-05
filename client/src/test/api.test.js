@@ -2,6 +2,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
+import { API_URL } from '../config';
 
 // We'll mock axios before importing API functions
 // This file tests the API module structure and mocked responses
@@ -38,9 +39,9 @@ describe('API Module Structure', () => {
 
   describe('API Configuration', () => {
     it('should have correct base URL', () => {
-      // The API should be configured to hit localhost:5000
-      const expectedBaseURL = 'http://localhost:5000/api';
-      expect(expectedBaseURL).toBe('http://localhost:5000/api');
+      // The API should be configured to use the centralized config
+      const expectedBaseURL = `${API_URL}/api`;
+      expect(expectedBaseURL).toBe(`${API_URL}/api`);
     });
   });
 
@@ -104,9 +105,9 @@ describe('Authentication API', () => {
         token: 'mock-jwt-token',
         user: { id: 1, name: 'Test User', email: 'test@example.com' }
       };
-      mock.onPost('http://localhost:5000/api/auth/login').reply(200, mockResponse);
+      mock.onPost(`${API_URL}/api/auth/login`).reply(200, mockResponse);
 
-      const result = await axios.post('http://localhost:5000/api/auth/login', {
+      const result = await axios.post(`${API_URL}/api/auth/login`, {
         email: 'test@example.com',
         password: 'Password123!'
       });
@@ -116,12 +117,12 @@ describe('Authentication API', () => {
     });
 
     it('should handle login error', async () => {
-      mock.onPost('http://localhost:5000/api/auth/login').reply(400, {
+      mock.onPost(`${API_URL}/api/auth/login`).reply(400, {
         message: 'Invalid credentials'
       });
 
       try {
-        await axios.post('http://localhost:5000/api/auth/login', {
+        await axios.post(`${API_URL}/api/auth/login`, {
           email: 'test@example.com',
           password: 'wrong'
         });
@@ -149,9 +150,9 @@ describe('Authentication API', () => {
         token: 'mock-jwt-token',
         user: { id: 1, name: 'New User', email: 'new@example.com' }
       };
-      mock.onPost('http://localhost:5000/api/auth/register').reply(201, mockResponse);
+      mock.onPost(`${API_URL}/api/auth/register`).reply(201, mockResponse);
 
-      const result = await axios.post('http://localhost:5000/api/auth/register', {
+      const result = await axios.post(`${API_URL}/api/auth/register`, {
         name: 'New User',
         email: 'new@example.com',
         password: 'Password123!'
@@ -184,9 +185,9 @@ describe('Transactions API', () => {
         { id: 1, text: 'Groceries', amount: -50, category: 'Food', date: '2026-01-15' },
         { id: 2, text: 'Salary', amount: 3000, category: 'General', date: '2026-01-01' },
       ];
-      mock.onGet('http://localhost:5000/api/transactions').reply(200, mockTransactions);
+      mock.onGet(`${API_URL}/api/transactions`).reply(200, mockTransactions);
 
-      const result = await axios.get('http://localhost:5000/api/transactions');
+      const result = await axios.get(`${API_URL}/api/transactions`);
       
       expect(Array.isArray(result.data)).toBe(true);
       expect(result.data.length).toBe(2);
@@ -204,9 +205,9 @@ describe('Transactions API', () => {
     it('should create transaction and return it', async () => {
       const newTransaction = { text: 'New Transaction', amount: -100, category: 'Food' };
       const mockResponse = { id: 3, ...newTransaction, date: new Date().toISOString() };
-      mock.onPost('http://localhost:5000/api/transactions').reply(201, mockResponse);
+      mock.onPost(`${API_URL}/api/transactions`).reply(201, mockResponse);
 
-      const result = await axios.post('http://localhost:5000/api/transactions', newTransaction);
+      const result = await axios.post(`${API_URL}/api/transactions`, newTransaction);
       
       expect(result.data.id).toBeDefined();
       expect(result.data.text).toBe('New Transaction');
@@ -250,9 +251,9 @@ describe('Analytics API', () => {
         { category: 'Food', total: 250.50 },
         { category: 'Rent', total: 1000 },
       ];
-      mock.onGet('http://localhost:5000/api/analytics/category-totals').reply(200, mockTotals);
+      mock.onGet(`${API_URL}/api/analytics/category-totals`).reply(200, mockTotals);
 
-      const result = await axios.get('http://localhost:5000/api/analytics/category-totals');
+      const result = await axios.get(`${API_URL}/api/analytics/category-totals`);
       
       expect(Array.isArray(result.data)).toBe(true);
       expect(result.data[0]).toHaveProperty('category');
@@ -273,9 +274,9 @@ describe('Analytics API', () => {
         balance: 1599.50,
         transactionCount: 15
       };
-      mock.onGet('http://localhost:5000/api/analytics/monthly-summary').reply(200, mockSummary);
+      mock.onGet(`${API_URL}/api/analytics/monthly-summary`).reply(200, mockSummary);
 
-      const result = await axios.get('http://localhost:5000/api/analytics/monthly-summary');
+      const result = await axios.get(`${API_URL}/api/analytics/monthly-summary`);
       
       expect(result.data).toHaveProperty('income');
       expect(result.data).toHaveProperty('expenses');

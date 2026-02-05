@@ -1,6 +1,6 @@
 const http = require('http');
 
-const BASE_URL = 'http://localhost:5000';
+const BASE_URL = process.env.API_URL || 'http://localhost:5000';
 
 function makeRequest(method, path, body = null, token = null) {
   return new Promise((resolve, reject) => {
