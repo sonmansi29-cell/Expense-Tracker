@@ -39,18 +39,6 @@ app.get("/", (req, res) => {
 
 const PORT = process.env.PORT || 5000;
 
-// Serve React static files in production
-const path = require('path');
-if (process.env.NODE_ENV === 'production') {
-  // Point to your React build folder
-  app.use(express.static(path.join(__dirname, '../client/dist')));
-
-  // Redirect all other requests to the React app
-  app.get('*', (req, res) =>
-    res.sendFile(path.resolve(__dirname, 'client', 'dist', 'index.html'))
-  );
-}
-
 app.listen(PORT, () => {
   console.log(`✅ Server running on http://localhost:${PORT}`);
 });
