@@ -1,7 +1,10 @@
 import axios from 'axios';
 
+// Use environment variable for API URL, default to 127.0.0.1:5000
+const API_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:5000';
+
 const API = axios.create({
-  baseURL: 'http://localhost:5000/api',
+  baseURL: `${API_URL}/api`,
 });
 
 // Add token to Authorization header for all requests
@@ -104,3 +107,4 @@ export const exportTransactionsToCSV = (transactions) => {
   link.click();
   document.body.removeChild(link);
 };
+

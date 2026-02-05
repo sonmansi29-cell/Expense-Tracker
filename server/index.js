@@ -4,7 +4,9 @@ const cors = require("cors");
 
 const app = express();
 
-app.use(cors());
+app.use(cors({
+  origin: 'https://expense-tracker-1-d6wy.onrender.com'
+}));
 app.use(express.json());
 
 // ROUTES
