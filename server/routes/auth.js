@@ -18,10 +18,6 @@ router.post('/register', async (req, res) => {
 
     console.log('Registration attempt:', { name, email: email ? '***' : 'MISSING', password: password ? '***' : 'MISSING' });
 
-    if (!name || !email || !password) {
-      return res.status(400).json({ message: "All fields are required" });
-    }
-
     // Validate required fields
     if (!name || !email || !password) {
       console.log('Registration failed: Missing fields');
