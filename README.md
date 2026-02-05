@@ -1,7 +1,7 @@
 # Expense-Tracker
 Expense Tracker is a full-stack personal finance application built with the MERN stack (PostgreSQL/Prisma variant). It features a high-performance dashboard with real-time data visualization, secure user authentication with password strength validation, and a sleek glassmorphic UI.
 
-### [Expense Tracker App Live](https://expense-tracker-1-d6wy.onrender.com/)
+### [Expense Tracker App Live](https://expense-tracker-1-d6wy.onrender.com)
 
 ## Tech Stack <br>
 Frontend - React Material UI (MUI), Framer Motion, Recharts<br> Backend - Node.js, Express.js <br> Database - PostgreSQL with Prisma ORM <br> State Management - TanStack Query (React Query)
